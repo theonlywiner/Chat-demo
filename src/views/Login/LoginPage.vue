@@ -89,6 +89,11 @@ const login = async () => {
     router.push('/')
   } else {
     ElMessage.error('登录失败')
+    //点击之后清空数据
+    formModel.value = {
+      username: formModel.value.username,
+      password: ''
+    }
   }
 }
 </script>
@@ -107,7 +112,7 @@ const login = async () => {
         v-if="isRegister"
       >
         <el-form-item>
-          <h1>浙外ai问答小助手</h1>
+          <h1>浙外古诗文问答</h1>
         </el-form-item>
         <el-form-item>
           <h3>注册</h3>
@@ -163,7 +168,7 @@ const login = async () => {
         v-else
       >
         <el-form-item>
-          <h1>浙外ai问答小助手</h1>
+          <h1>浙外古诗文问答</h1>
         </el-form-item>
         <el-form-item>
           <h3>登录</h3>

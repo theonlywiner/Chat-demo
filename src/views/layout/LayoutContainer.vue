@@ -7,7 +7,7 @@ import {
   SwitchButton,
   CaretBottom
 } from '@element-plus/icons-vue'
-import { ref } from 'vue'
+import { ref, computed } from 'vue'
 import { useUserStore } from '@/stores/user'
 import { useRouter } from 'vue-router'
 
@@ -16,6 +16,13 @@ const router = useRouter()
 //模拟历史数据
 const historyList = ref(['历史记录1', '历史记录2', '历史记录3', '历史记录4'])
 
+// 首先在 script setup 部分添加计算属性来判断用户是否登录
+const isLogin = computed(() => {
+  return userStore.isLogin
+})
+
+console.log(userStore.isLogin)
+
 //清空记录
 const clearAll = () => {
   historyList.value = []
@@ -23,6 +30,11 @@ const clearAll = () => {
 
 //下拉菜单
 const handleCommand = async (key) => {
+  //登录按钮
+  if (key === 'login') {
+    router.push('/login')
+    return
+  }
   //退出按钮
   if (key === 'logout') {
     await ElMessageBox.confirm('确定要退出吗', '温馨提示', {
@@ -33,7 +45,6 @@ const handleCommand = async (key) => {
       .then(() => {
         //清除token 跳转到登录页面
         userStore.removeToken()
-        userStore.setToken({})
         router.push('/login')
         ElMessage.success('退出成功')
       })
@@ -45,7 +56,7 @@ const handleCommand = async (key) => {
 <template>
   <el-container class="layout-container">
     <!-- 侧边栏 -->
-    <el-aside width="350px">
+    <el-aside width="300px">
       <!-- logo位置 -->
       <div class="el-aside__logo"></div>
       <!-- 历史记录 -->
@@ -61,18 +72,19 @@ const handleCommand = async (key) => {
     <el-container>
       <el-header>
         <!-- 用户姓名 -->
-        <div>尊敬的用户:<strong>admin</strong></div>
+        <div>{{ isLogin ? '尊敬的用户:' + userStore.token : '未登录' }}</div>
         <!-- 头像的下拉菜单 -->
         <el-dropdown placement="bottom-end" @command="handleCommand">
           <!-- 头像 -->
           <span class="el-dropdown__box">
             <el-avatar src="src\assets\user.png" />
+
             <el-icon><CaretBottom /></el-icon>
           </span>
 
           <!-- 下拉部分 -->
           <template #dropdown>
-            <el-dropdown-menu>
+            <el-dropdown-menu v-if="isLogin">
               <el-dropdown-item command="profile" :icon="User"
                 >基本资料</el-dropdown-item
               >
@@ -84,6 +96,11 @@ const handleCommand = async (key) => {
               >
               <el-dropdown-item command="logout" :icon="SwitchButton"
                 >退出登录</el-dropdown-item
+              >
+            </el-dropdown-menu>
+            <el-dropdown-menu v-else>
+              <el-dropdown-item command="login" :icon="User"
+                >登录账号</el-dropdown-item
               >
             </el-dropdown-menu>
           </template>
@@ -118,6 +135,7 @@ const handleCommand = async (key) => {
     padding-top: 20px;
     li {
       padding: 20px 0;
+      margin-right: 20px;
       border-bottom: 1px solid #ccc;
       font-size: 16px;
       color: #666;
