@@ -5,7 +5,9 @@ import {
   Crop,
   EditPen,
   SwitchButton,
-  CaretBottom
+  CaretBottom,
+  CaretRight,
+  CaretLeft
 } from '@element-plus/icons-vue'
 import { ref, computed } from 'vue'
 import { useUserStore } from '@/stores/user'
@@ -16,12 +18,10 @@ const router = useRouter()
 //模拟历史数据
 const historyList = ref(['历史记录1', '历史记录2', '历史记录3', '历史记录4'])
 
-// 首先在 script setup 部分添加计算属性来判断用户是否登录
+// isLogin用于判断用户是否登录  改变顶部状态
 const isLogin = computed(() => {
   return userStore.isLogin
 })
-
-console.log(userStore.isLogin)
 
 //清空记录
 const clearAll = () => {
@@ -51,16 +51,32 @@ const handleCommand = async (key) => {
       .catch(() => {})
   }
 }
+
+// 添加侧边栏收起状态的控制
+const isCollapse = ref(false)
+
+// 添加切换方法
+const toggleAside = () => {
+  isCollapse.value = !isCollapse.value
+}
 </script>
 
 <template>
   <el-container class="layout-container">
-    <!-- 侧边栏 -->
-    <el-aside width="300px">
+    <!-- 修改侧边栏部分 -->
+    <el-aside :width="isCollapse ? '64px' : '300px'" class="aside-container">
+      <!-- 添加收起按钮 -->
+      <div class="collapse-btn" @click="toggleAside">
+        <el-icon>
+          <CaretRight v-if="isCollapse" />
+          <CaretLeft v-else />
+        </el-icon>
+      </div>
+
       <!-- logo位置 -->
       <div class="el-aside__logo"></div>
       <!-- 历史记录 -->
-      <div class="inline-flex">
+      <div class="inline-flex" v-show="!isCollapse">
         <ul>
           <li v-for="item in historyList" :key="item">{{ item }}</li>
         </ul>
@@ -178,5 +194,35 @@ const handleCommand = async (key) => {
   justify-content: center;
   font-size: 14px;
   color: #666;
+}
+.aside-container {
+  position: relative;
+  transition: width 0.3s;
+  overflow: hidden;
+}
+
+.collapse-btn {
+  position: absolute;
+  right: 0;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 20px;
+  height: 50px;
+  background-color: #fff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  border-radius: 4px 0 0 4px;
+  z-index: 100;
+
+  &:hover {
+    background-color: #f2f2f2;
+  }
+
+  .el-icon {
+    font-size: 16px;
+    color: #666;
+  }
 }
 </style>
