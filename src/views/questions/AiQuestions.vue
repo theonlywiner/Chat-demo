@@ -2,10 +2,12 @@
 import { ref } from 'vue'
 import { UploadFilled } from '@element-plus/icons-vue'
 import { ElMessage } from 'element-plus'
+import { queryAncientText } from '@/api/query'
 
 const inputText = ref('')
 const aiResponse = ref('')
 const fileList = ref([])
+const message = ref('快来问问我吧~')
 
 // 允许上传的文件类型
 const allowedTypes = {
@@ -62,24 +64,27 @@ const sendMessage = async () => {
 
   try {
     // 创建 FormData 对象用于发送文件
-    const formData = new FormData()
-    formData.append('text', inputText.value)
+    // const formData = new FormData()
+    // formData.append('text', inputText.value)
 
     // 添加文件到 FormData
-    fileList.value.forEach((file) => {
-      formData.append('files', file.raw)
-    })
+    // fileList.value.forEach((file) => {
+    //   formData.append('files', file.raw)
+    // })
 
     // TODO: 发送请求到后端
-    // const response = await axios.post('/api/chat', formData)
-    // aiResponse.value = response.data
-
-    // 模拟响应
-    aiResponse.value = '正在处理您的请求...'
+    const response = await queryAncientText(inputText.value)
+    if (response.success) {
+      aiResponse.value = response.data
+      message.value = '' // 清空提示消息
+    } else {
+      aiResponse.value = ''
+      message.value = response.error // 显示错误提示
+    }
 
     // 清空输入和文件列表
-    inputText.value = ''
-    fileList.value = []
+    // inputText.value = ''
+    // fileList.value = []
   } catch (error) {
     ElMessage.error('发送失败，请重试')
     console.error(error)
@@ -160,7 +165,14 @@ const removeFile = (file) => {
     <!-- 右侧响应区域 -->
     <div class="response-section">
       <div class="response-content">
-        {{ aiResponse || '等待接收响应...' }}
+        <template v-if="aiResponse">
+          <div>古文: {{ aiResponse.ancient_text }}</div>
+          <div>现代文: {{ aiResponse.modern_text }}</div>
+          <div>出自于: {{ aiResponse.book_name }}</div>
+        </template>
+        <template v-else>
+          <div>{{ message }}</div>
+        </template>
       </div>
     </div>
   </div>

@@ -4,13 +4,13 @@ import { ref, watch } from 'vue'
 //模拟接口应用
 import { userLoginService, userRegisterService } from '@/api/user.js'
 import { useRouter } from 'vue-router'
+import { ElMessage } from 'element-plus'
 
 const router = useRouter()
 
 //判断是登录还是注册
 const isRegister = ref(false)
-
-//获取表单
+//获取form表单  用于点击注册的时候 进行校验
 const form = ref(null)
 
 //整个用于提交的数据对象
@@ -67,33 +67,36 @@ watch(isRegister, () => {
 
 //注册
 const register = async () => {
-  //表单初始校验
-  await form.value.validate()
-  //模拟接口检验
-  if (userRegisterService(formModel.value)) {
-    ElMessage.success('注册成功')
-    //注册成功
-    isRegister.value = false
-  } else {
-    ElMessage.error('注册失败')
+  try {
+    //表单初始校验
+    await form.value.validate()
+    //调用接口
+    const res = await userRegisterService(formModel.value)
+
+    if (res) {
+      //注册成功
+      ElMessage.success('注册成功')
+      isRegister.value = false
+    }
+  } catch (error) {
+    console.error('表单校验失败:', error)
   }
 }
 
 //登录
 const login = async () => {
-  //表单初始校验
-  await form.value.validate()
-  //模拟接口检验
-  if (userLoginService(formModel.value)) {
-    ElMessage.success('登录成功')
-    router.push('/')
-  } else {
-    ElMessage.error('登录失败')
-    //点击之后清空数据
-    formModel.value = {
-      username: formModel.value.username,
-      password: ''
+  try {
+    //预处理
+    await form.value.validate()
+    const res = await userLoginService(formModel.value)
+
+    if (res) {
+      // 登录成功
+      ElMessage.success('登录成功')
+      router.push('/')
     }
+  } catch (error) {
+    console.error('表单校验失败:', error)
   }
 }
 </script>
