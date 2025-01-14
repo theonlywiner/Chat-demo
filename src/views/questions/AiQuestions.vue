@@ -75,6 +75,20 @@ const sendMessage = async () => {
     // TODO: 发送请求到后端
     const response = await queryAncientText(inputText.value)
     if (response.success) {
+      console.log(response.data)
+      console.log(response.data.ai_analysis)
+      // 拆分文本
+      // parts.value = response.data.ai_analysis.split('对应的解析：')[0]
+      // // 实虚词和对应的解析部分
+      // realVirtualWordsAndAnalysis.value =
+      //   '对应的解析：' +
+      //   response.data.ai_analysis
+      //     .split('对应的解析：')[1]
+      //     .split('段落分句为：')[0]
+      // // 段落分句部分
+      // sentenceStructure.value =
+      //   '段落分句为：' + response.data.ai_analysis.split('段落分句为：')[1]
+
       aiResponse.value = response.data
       message.value = '' // 清空提示消息
     } else {
@@ -168,7 +182,20 @@ const removeFile = (file) => {
         <template v-if="aiResponse">
           <div>古文: {{ aiResponse.ancient_text }}</div>
           <div>现代文: {{ aiResponse.modern_text }}</div>
-          <div>出自于: {{ aiResponse.book_name }}</div>
+          <div>
+            出自于:
+            {{
+              (aiResponse.series_name ? aiResponse.series_name + '-' : '') +
+              (aiResponse.book_name ? aiResponse.book_name + '-' : '') +
+              (aiResponse.chapter_name || '')
+            }}
+          </div>
+          <div>
+            {{ aiResponse.ai_analysis }}
+            <!-- <p>{{ parts }}</p>
+            <p>{{ realVirtualWordsAndAnalysis }}</p>
+            <p>{{ sentenceStructure }}</p> -->
+          </div>
         </template>
         <template v-else>
           <div>{{ message }}</div>

@@ -10,7 +10,7 @@ const baseURL = 'http://localhost:5000'
 const instance = axios.create({
   // TODO 1. 基础地址，超时时间,请求头
   baseURL,
-  timeout: 10000
+  timeout: 15000
 })
 
 //请求拦截器
