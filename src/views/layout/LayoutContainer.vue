@@ -1,31 +1,35 @@
 <script setup>
 import {
-  Delete,
   User,
   Crop,
   EditPen,
   SwitchButton,
-  CaretBottom,
-  CaretRight,
-  CaretLeft
+  CaretBottom
 } from '@element-plus/icons-vue'
-import { ref, computed } from 'vue'
+import { computed } from 'vue'
 import { useUserStore } from '@/stores/user'
 import { useRouter } from 'vue-router'
+import emptyImg from '@/assets/empty.png'
+import avatar from '@/assets/user.png'
 
 const userStore = useUserStore()
 const router = useRouter()
-//模拟历史数据
-const historyList = ref(['历史记录1', '历史记录2', '历史记录3', '历史记录4'])
 
 // isLogin用于判断用户是否登录  改变顶部状态
 const isLogin = computed(() => {
   return userStore.isLogin
 })
 
-//清空记录
-const clearAll = () => {
-  historyList.value = []
+// 导航菜单配置
+const navItems = [
+  { name: '首页', path: '/article/channel' },
+  { name: '搜索', path: '/article/search' },
+  { name: '解析', path: '/article/question' }
+]
+
+// 处理导航点击
+const handleNavClick = (path) => {
+  router.push(path)
 }
 
 //下拉菜单
@@ -51,80 +55,84 @@ const handleCommand = async (key) => {
       .catch(() => {})
   }
 }
-
-// 添加侧边栏收起状态的控制
-const isCollapse = ref(false)
-
-// 添加切换方法
-const toggleAside = () => {
-  isCollapse.value = !isCollapse.value
-}
 </script>
 
 <template>
   <el-container class="layout-container">
-    <!-- 修改侧边栏部分 -->
-    <el-aside :width="isCollapse ? '64px' : '300px'" class="aside-container">
-      <!-- 添加收起按钮 -->
-      <div class="collapse-btn" @click="toggleAside">
-        <el-icon>
-          <CaretRight v-if="isCollapse" />
-          <CaretLeft v-else />
-        </el-icon>
-      </div>
-
-      <!-- logo位置 -->
-      <div class="el-aside__logo"></div>
-      <!-- 历史记录 -->
-      <div class="inline-flex" v-show="!isCollapse">
-        <ul>
-          <li v-for="item in historyList" :key="item">{{ item }}</li>
-        </ul>
-        <!-- 清空历史 -->
-        <el-button type="danger" :icon="Delete" circle @click="clearAll" />
-      </div>
-    </el-aside>
     <!-- 顶部 -->
     <el-container>
       <el-header>
-        <!-- 用户姓名 -->
-        <div>{{ isLogin ? '尊敬的用户:' + userStore.token : '未登录' }}</div>
-        <!-- 头像的下拉菜单 -->
-        <el-dropdown placement="bottom-end" @command="handleCommand">
-          <!-- 头像 -->
-          <span class="el-dropdown__box">
-            <el-avatar src="src\assets\user.png" />
+        <div class="header-container">
+          <!-- Logo区域 -->
+          <div class="logo-area">
+            <img :src="emptyImg" alt="Logo" class="logo-image" />
+          </div>
 
-            <el-icon><CaretBottom /></el-icon>
-          </span>
+          <!-- 导航菜单 -->
+          <div class="nav-menu">
+            <el-menu
+              mode="horizontal"
+              :router="true"
+              :default-active="$route.path"
+              class="nav-items"
+              :ellipsis="false"
+            >
+              <el-menu-item
+                v-for="item in navItems"
+                :key="item.path"
+                :index="item.path"
+                @click="handleNavClick(item.path)"
+              >
+                {{ item.name }}
+              </el-menu-item>
+            </el-menu>
+          </div>
 
-          <!-- 下拉部分 -->
-          <template #dropdown>
-            <el-dropdown-menu v-if="isLogin">
-              <el-dropdown-item command="profile" :icon="User"
-                >基本资料</el-dropdown-item
-              >
-              <el-dropdown-item command="avatar" :icon="Crop"
-                >更换头像</el-dropdown-item
-              >
-              <el-dropdown-item command="password" :icon="EditPen"
-                >重置密码</el-dropdown-item
-              >
-              <el-dropdown-item command="logout" :icon="SwitchButton"
-                >退出登录</el-dropdown-item
-              >
-            </el-dropdown-menu>
-            <el-dropdown-menu v-else>
-              <el-dropdown-item command="login" :icon="User"
-                >登录账号</el-dropdown-item
-              >
-            </el-dropdown-menu>
-          </template>
-        </el-dropdown>
+          <!-- 用户区域 - 保留原有的用户信息和下拉菜单 -->
+          <div class="user-area">
+            <!-- 用户姓名 -->
+            <div class="username">
+              {{ isLogin ? '尊敬的用户:' + userStore.token : '未登录' }}
+            </div>
+            <!-- 头像的下拉菜单 -->
+            <el-dropdown placement="bottom-end" @command="handleCommand">
+              <!-- 头像 -->
+              <span class="el-dropdown__box">
+                <el-avatar :src="avatar" />
+                <el-icon><CaretBottom /></el-icon>
+              </span>
+
+              <!-- 下拉部分 -->
+              <template #dropdown>
+                <el-dropdown-menu v-if="isLogin">
+                  <el-dropdown-item command="profile" :icon="User"
+                    >基本资料</el-dropdown-item
+                  >
+                  <el-dropdown-item command="avatar" :icon="Crop"
+                    >更换头像</el-dropdown-item
+                  >
+                  <el-dropdown-item command="password" :icon="EditPen"
+                    >重置密码</el-dropdown-item
+                  >
+                  <el-dropdown-item command="logout" :icon="SwitchButton"
+                    >退出登录</el-dropdown-item
+                  >
+                </el-dropdown-menu>
+                <el-dropdown-menu v-else>
+                  <el-dropdown-item command="login" :icon="User"
+                    >登录账号</el-dropdown-item
+                  >
+                </el-dropdown-menu>
+              </template>
+            </el-dropdown>
+          </div>
+        </div>
       </el-header>
+
       <el-main>
         <router-view></router-view>
       </el-main>
+
       <el-footer>测试版--浙外ai问答助手</el-footer>
     </el-container>
   </el-container>
@@ -133,50 +141,89 @@ const toggleAside = () => {
 <style lang="less" scoped>
 .layout-container {
   height: 100vh;
+  display: flex;
+  flex-direction: column;
 }
-.el-aside {
-  background-color: #232323;
-  .el-aside__logo {
-    height: 120px;
-    background: url('@/assets/empty.png') no-repeat center / 50px auto;
-  }
-  .inline-flex {
-    position: relative;
-    background-color: white;
-    width: 80%;
-    height: 80%;
-    margin-left: 10%;
-    border-radius: 10px;
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-    padding-top: 20px;
-    li {
-      padding: 20px 0;
-      margin-right: 20px;
-      border-bottom: 1px solid #ccc;
-      font-size: 16px;
-      color: #666;
-      &:hover {
-        color: #409eff;
-      }
-    }
-    .el-button {
-      position: absolute;
-      bottom: 5%; /* 将按钮定位到盒子的底部 */
-      left: 50%; /* 将按钮水平居中 */
-      transform: translateX(
-        -50%
-      ); /* 使用 transform 属性将按钮向左移动自身宽度的 50%，以实现水平居中 */
-    }
-  }
-}
+
 .el-header {
   background-color: #fff;
+  padding: 0; /* 移除默认padding */
+  border-bottom: 1px solid #dcdfe6;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+  flex-shrink: 0; /* 防止header被压缩 */
+}
+
+.header-container {
+  width: 1200px;
+  height: 60px;
   display: flex;
   align-items: center;
-  justify-content: space-between;
+  padding: 0 150px;
+  margin: 0 auto;
+}
+
+.logo-area {
+  display: flex;
+  align-items: center;
+  margin-right: 40px;
+
+  .logo-image {
+    height: 40px;
+    width: auto;
+  }
+}
+
+.nav-menu {
+  display: flex;
+  align-items: center;
+  flex-grow: 1;
+
+  .nav-items {
+    border-bottom: none;
+    display: flex;
+    justify-content: flex-start;
+    width: auto;
+  }
+
+  :deep(.el-menu) {
+    border-bottom: none;
+  }
+
+  :deep(.el-menu--horizontal) {
+    border-bottom: none;
+    display: flex;
+    flex-wrap: nowrap;
+  }
+
+  :deep(.el-menu-item) {
+    font-size: 16px;
+    height: 60px;
+    line-height: 60px;
+    padding: 0 20px;
+
+    &.is-active {
+      font-weight: bold;
+    }
+  }
+}
+
+.user-area {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-left: auto;
+  white-space: nowrap;
+
+  .username {
+    font-size: 14px;
+    color: #606266;
+  }
+
   .el-dropdown__box {
     display: flex;
     align-items: center;
+    cursor: pointer;
+
     .el-icon {
       color: black;
       margin-left: 10px;
@@ -188,41 +235,20 @@ const toggleAside = () => {
     }
   }
 }
+
+.el-main {
+  flex: 1; /* 填充剩余空间 */
+  padding: 20px;
+  background-color: #f5f7fa;
+  overflow-y: auto; /* 允许内容滚动 */
+}
+
 .el-footer {
+  flex-shrink: 0; /* 防止footer被压缩 */
   display: flex;
   align-items: center;
   justify-content: center;
   font-size: 14px;
   color: #666;
-}
-.aside-container {
-  position: relative;
-  transition: width 0.3s;
-  overflow: hidden;
-}
-
-.collapse-btn {
-  position: absolute;
-  right: 0;
-  top: 50%;
-  transform: translateY(-50%);
-  width: 20px;
-  height: 50px;
-  background-color: #fff;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  cursor: pointer;
-  border-radius: 4px 0 0 4px;
-  z-index: 100;
-
-  &:hover {
-    background-color: #f2f2f2;
-  }
-
-  .el-icon {
-    font-size: 16px;
-    color: #666;
-  }
 }
 </style>

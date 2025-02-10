@@ -12,22 +12,24 @@ export const userLoginService = async (obj) => {
       password: obj.password
     })
 
-    // 确保只有在真正成功时才返回true
-    if (response.status === 200 && response.data.message === '登录成功') {
+    if (response.data.success) {
       userStore.setToken(obj.username)
       return true
+    } else {
+      // 显示后端返回的错误消息
+      ElMessage.error(response.data.message)
+      return false
     }
-    return false
   } catch (error) {
-    // 处理错误响应
+    // 处理错误响应，显示后端返回的具体错误信息
     const errorMessage = error.response?.data?.message || '登录失败'
-    console.error('登录失败:', errorMessage)
     ElMessage.error(errorMessage)
     return false
   }
 }
 
 //注册
+// 导出一个异步函数，用于用户注册
 export const userRegisterService = async (obj) => {
   try {
     const response = await request.post(`/register`, {
@@ -35,14 +37,16 @@ export const userRegisterService = async (obj) => {
       password: obj.password
     })
 
-    if (response.status === 201 && response.data.message === '注册成功') {
+    if (response.data.message === '注册成功') {
       return true
+    } else {
+      // 显示后端返回的错误消息
+      ElMessage.error(response.data.message)
+      return false
     }
-    return false
   } catch (error) {
-    // 处理错误响应
+    // 处理错误响应，显示后端返回的具体错误信息
     const errorMessage = error.response?.data?.message || '注册失败'
-    console.error('注册失败:', errorMessage)
     ElMessage.error(errorMessage)
     return false
   }

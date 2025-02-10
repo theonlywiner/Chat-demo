@@ -74,6 +74,8 @@ const sendMessage = async () => {
 
     // TODO: 发送请求到后端
     const response = await queryAncientText(inputText.value)
+    console.log(response)
+
     if (response.success) {
       console.log(response.data)
       console.log(response.data.ai_analysis)
@@ -209,8 +211,8 @@ const removeFile = (file) => {
 .chat-container {
   display: flex;
   gap: 20px;
-  height: 100%;
-  padding: 20px;
+  height: 97%;
+  padding: 10px 50px;
 }
 
 .input-section {
@@ -224,13 +226,14 @@ const removeFile = (file) => {
 
   .main-input {
     flex: 1;
+    font-size: 16px;
 
     :deep(.el-textarea__inner) {
       height: calc(100% - 120px);
       min-height: 300px;
       border: none;
       resize: none;
-      padding: 15px;
+      padding: 60px;
       padding-bottom: 120px;
       box-shadow: none;
     }
@@ -292,7 +295,7 @@ const removeFile = (file) => {
 }
 
 .upload-icon {
-  font-size: 24px;
+  font-size: 60px;
   color: #409eff;
 }
 

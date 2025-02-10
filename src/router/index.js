@@ -5,20 +5,32 @@ const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
   routes: [
     {
-      path: '/login',
-      component: () => import('@/views/Login/LoginPage.vue')
-    },
-    {
       path: '/',
-      component: () => import('@/views/layout/LayoutContainer.vue'),
-      //重定向
-      redirect: '/questions',
+      component: () => import('@/views/Layout/LayoutContainer.vue'),
+      redirect: '/article/channel',
       children: [
         {
-          path: '/questions',
-          component: () => import('@/views/questions/AiQuestions.vue')
+          path: 'article/channel',
+          component: () => import('@/views/Article/index.vue')
+        },
+        {
+          path: 'article/search',
+          component: () => import('@/views/Search/index.vue')
+        },
+        {
+          path: 'article/question',
+          component: () => import('@/views/Questions/index.vue')
         }
       ]
+    },
+    {
+      path: '/login',
+      component: () => import('@/views/Login/index.vue')
+    },
+    {
+      path: '/search_prodetail/:id',
+      name: 'prodetail',
+      component: () => import('@/views/Prodetail/index.vue')
     }
   ]
 })
