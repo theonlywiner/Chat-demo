@@ -1,4 +1,12 @@
-# ChatChat
+这是一个修改测试（原来的内容注释掉了）
+
+## 2025.2.12
+修复了页面宽度以及导航栏随着窗口缩放异常的问题
+
+新增了一个半成品的ai问答页面（老的还在）
+
+
+<!-- # ChatChat
 
 This template should help get you started developing with Vue 3 in Vite.
 
@@ -32,4 +40,4 @@ pnpm build
 
 ```sh
 pnpm lint
-```
+``` -->
