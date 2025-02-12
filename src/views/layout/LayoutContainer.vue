@@ -53,81 +53,74 @@ const handleCommand = async (key) => {
         router.push('/login')
         ElMessage.success('退出成功')
       })
-      .catch(() => {})
+      .catch(() => { })
   }
 }
 </script>
 
 <template>
   <el-container class="layout-container">
-    <!-- 顶部 -->
+
     <el-container>
+      <!-- 顶部 -->
       <el-header>
-        <div class="header-container">
-          <!-- Logo区域 -->
-          <div class="logo-area">
-            <img :src="emptyImg" alt="Logo" class="logo-image" />
-          </div>
-
-          <!-- 导航菜单 -->
-          <div class="nav-menu">
-            <el-menu
-              mode="horizontal"
-              :router="true"
-              :default-active="$route.path"
-              class="nav-items"
-              :ellipsis="false"
-            >
-              <el-menu-item
-                v-for="item in navItems"
-                :key="item.path"
-                :index="item.path"
-                @click="handleNavClick(item.path)"
-              >
-                {{ item.name }}
-              </el-menu-item>
-            </el-menu>
-          </div>
-
-          <!-- 用户区域 - 保留原有的用户信息和下拉菜单 -->
-          <div class="user-area">
-            <!-- 用户姓名 -->
-            <div class="username">
-              {{ isLogin ? '尊敬的用户:' + userStore.token : '未登录' }}
+        <el-row class="layout">
+          <el-col :span="4">
+            <!-- Logo区域 -->
+            <div class="logo-area">
+              <img :src="emptyImg" alt="Logo" class="logo-image" />
             </div>
-            <!-- 头像的下拉菜单 -->
-            <el-dropdown placement="bottom-end" @command="handleCommand">
-              <!-- 头像 -->
-              <span class="el-dropdown__box">
-                <el-avatar :src="avatar" />
-                <el-icon><CaretBottom /></el-icon>
-              </span>
+          </el-col>
+          <el-col :span="16">
+            <!-- 导航菜单 -->
+            <div class="nav-menu">
+              <el-menu mode="horizontal" :router="true" :default-active="$route.path" class="nav-items"
+                :ellipsis="false">
+                <el-menu-item v-for="item in navItems" :key="item.path" :index="item.path"
+                  @click="handleNavClick(item.path)">
+                  {{ item.name }}
+                </el-menu-item>
+              </el-menu>
+            </div>
+          </el-col>
+          <el-col :span="4">
+            <!-- 用户区域 - 保留原有的用户信息和下拉菜单 -->
+            <div class="user-area">
+              <!-- 用户姓名 -->
+              <div class="username">
+                {{ isLogin ? '尊敬的用户:' + userStore.token : '未登录' }}
+              </div>
+              <!-- 头像的下拉菜单 -->
+              <el-dropdown placement="bottom-end" @command="handleCommand">
+                <!-- 头像 -->
+                <span class="el-dropdown__box">
+                  <el-avatar :src="avatar" />
+                  <el-icon>
+                    <CaretBottom />
+                  </el-icon>
+                </span>
 
-              <!-- 下拉部分 -->
-              <template #dropdown>
-                <el-dropdown-menu v-if="isLogin">
-                  <el-dropdown-item command="profile" :icon="User"
-                    >基本资料</el-dropdown-item
-                  >
-                  <el-dropdown-item command="avatar" :icon="Crop"
-                    >更换头像</el-dropdown-item
-                  >
-                  <el-dropdown-item command="password" :icon="EditPen"
-                    >重置密码</el-dropdown-item
-                  >
-                  <el-dropdown-item command="logout" :icon="SwitchButton"
-                    >退出登录</el-dropdown-item
-                  >
-                </el-dropdown-menu>
-                <el-dropdown-menu v-else>
-                  <el-dropdown-item command="login" :icon="User"
-                    >登录账号</el-dropdown-item
-                  >
-                </el-dropdown-menu>
-              </template>
-            </el-dropdown>
-          </div>
-        </div>
+                <!-- 下拉部分 -->
+                <template #dropdown>
+                  <el-dropdown-menu v-if="isLogin">
+                    <el-dropdown-item command="profile" :icon="User">基本资料</el-dropdown-item>
+                    <el-dropdown-item command="avatar" :icon="Crop">更换头像</el-dropdown-item>
+                    <el-dropdown-item command="password" :icon="EditPen">重置密码</el-dropdown-item>
+                    <el-dropdown-item command="logout" :icon="SwitchButton">退出登录</el-dropdown-item>
+                  </el-dropdown-menu>
+                  <el-dropdown-menu v-else>
+                    <el-dropdown-item command="login" :icon="User">登录账号</el-dropdown-item>
+                  </el-dropdown-menu>
+                </template>
+              </el-dropdown>
+            </div>
+            <div class="grid-content ep-bg-purple" />
+          </el-col>
+        </el-row>
+
+        <!-- <div class="header-container">
+
+        </div> -->
       </el-header>
 
       <el-main>
@@ -148,12 +141,23 @@ const handleCommand = async (key) => {
 
 .el-header {
   background-color: #fff;
-  padding: 0; /* 移除默认padding */
+  padding: 0;
+  /* 移除默认padding */
   border-bottom: 1px solid #dcdfe6;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
-  flex-shrink: 0; /* 防止header被压缩 */
+  flex-shrink: 0;
+  /* 防止header被压缩 */
+}
+// 让layout里面的元素竖直居中（默认有display:flex）
+.el-row {
+  align-items: center;
 }
 
+.el-col {
+  justify-content: center;
+}
+
+/*
 .header-container {
   width: 1200px;
   height: 60px;
@@ -162,7 +166,7 @@ const handleCommand = async (key) => {
   padding: 0 150px;
   margin: 0 auto;
 }
-
+*/
 .logo-area {
   display: flex;
   align-items: center;
@@ -238,14 +242,17 @@ const handleCommand = async (key) => {
 }
 
 .el-main {
-  flex: 1; /* 填充剩余空间 */
+  flex: 1;
+  /* 填充剩余空间 */
   padding: 20px;
   background-color: #f5f7fa;
-  overflow-y: auto; /* 允许内容滚动 */
+  overflow-y: auto;
+  /* 允许内容滚动 */
 }
 
 .el-footer {
-  flex-shrink: 0; /* 防止footer被压缩 */
+  flex-shrink: 0;
+  /* 防止footer被压缩 */
   display: flex;
   align-items: center;
   justify-content: center;

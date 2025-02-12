@@ -6,7 +6,7 @@ const router = createRouter({
   routes: [
     {
       path: '/',
-      component: () => import('@/views/Layout/LayoutContainer.vue'),
+      component: () => import('@/views/layout/LayoutContainer.vue'),
       redirect: '/article/channel',
       children: [
         {
@@ -23,7 +23,7 @@ const router = createRouter({
         },
         {
           path: 'article/ai_chat',
-          component: () => import('@/views/Questions/ai_index.vue')
+          component: () => import('@/views/Questions/ai_index_test.vue')
         }
       ]
     },
