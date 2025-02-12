@@ -24,7 +24,8 @@ const isLogin = computed(() => {
 const navItems = [
   { name: '首页', path: '/article/channel' },
   { name: '搜索', path: '/article/search' },
-  { name: '解析', path: '/article/question' }
+  { name: '解析', path: '/article/question' },
+  { name: 'AI对话', path: '/article/ai_chat' }
 ]
 
 // 处理导航点击

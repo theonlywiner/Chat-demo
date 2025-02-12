@@ -20,6 +20,10 @@ const router = createRouter({
         {
           path: 'article/question',
           component: () => import('@/views/Questions/index.vue')
+        },
+        {
+          path: 'article/ai_chat',
+          component: () => import('@/views/Questions/ai_index.vue')
         }
       ]
     },
