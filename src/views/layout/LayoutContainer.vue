@@ -141,7 +141,7 @@ const handleCommand = async (key) => {
         </div> -->
       </el-header>
 
-      <el-main>
+      <el-main class="main">
         <router-view></router-view>
       </el-main>
 
@@ -175,6 +175,11 @@ const handleCommand = async (key) => {
   justify-content: center;
 }
 
+// .main {
+//   margin: auto;
+//   width: 84%;
+// }
+
 /*
 .header-container {
   width: 1200px;
@@ -188,7 +193,7 @@ const handleCommand = async (key) => {
 .logo-area {
   display: flex;
   justify-content: center;
-  margin-left: 160px;
+
 
   .logo-image {
     height: 40px;
