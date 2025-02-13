@@ -23,7 +23,7 @@ const router = createRouter({
         },
         {
           path: 'article/ai_chat',
-          component: () => import('@/views/Questions/ai_index.vue')
+          component: () => import('@/views/Questions/ai_index_collapse.vue')
         }
       ]
     },
