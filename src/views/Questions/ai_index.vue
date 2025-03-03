@@ -18,44 +18,30 @@ const send = () => {
   <div class="chat-container">
     <div class="chat-window" id="chatWindow">
       <!-- AI回应和用户问题会显示在这里 -->
-      <ul>
-        <li
-          :class="{
-            message: true,
-            'user-message': index % 2 === 0,
-            'ai-message': index % 2 !== 0
-          }"
-          v-for="(item, index) in chatList"
-          :key="index"
-        >
+      <ul class="msg-container">
+        <li :class="{
+          message: true,
+          'user-message': index % 2 === 0,
+          'ai-message': index % 2 !== 0
+        }" v-for="(item, index) in chatList" :key="index">
           {{ item }}
         </li>
       </ul>
     </div>
 
     <div class="input-area">
-      <input
-        v-model="chatMessage"
-        type="text"
-        id="userInput"
-        placeholder="请输入你的问题"
-        onkeydown="handleKeyPress(event)"
-      />
-      <el-button
-        @click="send"
-        type="success"
-        :icon="Check"
-        circle
-        id="sendButton"
-      />
+      <input v-model="chatMessage" type="text" id="userInput" placeholder="请输入你的问题" onkeydown="handleKeyPress(event)" />
+      <el-button @click="send" type="success" :icon="Check" circle id="sendButton" />
     </div>
   </div>
 </template>
 
 <style lang="less" scoped>
 .chat-container {
-  width: 80%;
-  margin-left: 10%;
+  //这两句让整个盒子居中
+  margin: auto;
+  width: 84%;
+
   height: 100%;
   display: flex;
   flex-direction: column;
@@ -67,6 +53,7 @@ const send = () => {
   overflow-y: auto;
   margin-bottom: 15px;
   border-radius: 4px;
+  padding: 16px;;
 }
 
 /* 用户和AI消息的样式 */
@@ -79,6 +66,11 @@ const send = () => {
   clear: both;
 }
 
+.msg-container {
+  margin: auto;
+  width: 100%;
+}
+
 .ai-message {
   background-color: #e0f7fa;
   margin-left: 0;
@@ -88,7 +80,7 @@ const send = () => {
 }
 
 .user-message {
-  background-color: #e0e0e0;
+  background-color: wheat;
   margin-left: auto;
   margin-right: 0;
   text-align: right;
@@ -97,13 +89,23 @@ const send = () => {
 
 //输入框
 .input-area {
+  margin: auto;
+  width: 100%;
+
+
   display: flex;
-  flex-wrap: nowrap; /* 防止换行 */
-  align-items: center; /* 垂直居中对齐 */
+  flex-wrap: nowrap;
+  /* 防止换行 */
+  align-items: center;
+  /* 垂直居中对齐 */
   margin-top: 10px;
 }
 
 #userInput {
+  margin: auto;
+  width: 84%;
+
+
   flex-grow: 0.8;
   padding: 12px;
   margin-left: 50px;
@@ -111,5 +113,9 @@ const send = () => {
   border: 1px solid #ddd;
   border-radius: 10px;
   font-size: 16px;
+}
+
+#sendButton {
+  margin-right: 50px;
 }
 </style>

@@ -5,7 +5,10 @@
 
 新增了一个半成品的ai问答页面（老的还在）
 
+## 2025.2.13
+改用老的ai问答页面，调整了一些样式
 
+给ai页面加了一个折叠侧边栏用于显示历史记录，同时引入了Element Plus的图标
 <!-- # ChatChat
 
 This template should help get you started developing with Vue 3 in Vite.
