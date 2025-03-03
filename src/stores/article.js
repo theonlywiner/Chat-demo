@@ -3,7 +3,7 @@ import { ref } from 'vue'
 
 export const useArticle = defineStore('article', () => {
   const books_List = ref([])
-  const cacheTimeout = 1000 * 60 * 5 // 5分钟缓存
+  const cacheTimeout = 1000 * 60 // 1分钟缓存
 
   // 保存页面状态
   const savePageState = (books) => {

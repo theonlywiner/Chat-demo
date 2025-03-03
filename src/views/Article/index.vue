@@ -10,6 +10,8 @@ const loading = ref(false)
 const articleStore = useArticle() //用于缓存列表
 
 const handleClick = (id) => {
+  console.log(books.value[0])
+
   router.push({
     name: 'prodetail',
     params: { id: id },
@@ -42,7 +44,7 @@ onMounted(async () => {
           v-for="book in books"
           :key="book.id"
           class="book-container"
-          @click="handleClick(book.chapter_first_id)"
+          @click="handleClick(book.chapterFirstId)"
         >
           <div class="book-shadow">
             <div class="book">

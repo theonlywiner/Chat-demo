@@ -21,6 +21,7 @@ export default defineConfig({
     }
   },
   server: {
+    //ip更改
     host: '0.0.0.0',
     port: 5173
   }

@@ -30,9 +30,10 @@ const get_Articles = async () => {
 
   // 这里可以调用后端API获取数据  当前页的list  总条数
   const res = await getArticleList(pageInfo.value)
+  console.log(res.rows)
 
   // articleList
-  articleList.value = res.list
+  articleList.value = res.rows
   total.value = res.total
 
   loading.value = false
@@ -87,7 +88,7 @@ const handleSearch = async () => {
     const res = await searchArticle(searchText.value)
 
     // 更新文章列表和总数
-    articleListall.value = res.list
+    articleListall.value = res.rows
     total.value = res.total
 
     // 重置分页相关状态

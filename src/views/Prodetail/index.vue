@@ -51,6 +51,8 @@ const get_ArticleDetail = async (id) => {
     // 这里调用后端API获取数据
     const res = await getArticleDetail(id)
 
+    // console.log(res)
+
     articleDetail.value = res.result
     navTreeData.value = res.navTreeData
 
@@ -146,12 +148,9 @@ onMounted(() => {
         <div class="content-section">
           <div class="section">
             <h3>原文 + 译文</h3>
-            <li
-              v-for="(item, index) in articleDetail.content_list"
-              :key="index"
-            >
-              <div class="text text_ancient">{{ item.ancient_content }}</div>
-              <div class="text text_modern">{{ item.modern_content }}</div>
+            <li v-for="(item, index) in articleDetail.contentList" :key="index">
+              <div class="text text_ancient">{{ item.ancientContent }}</div>
+              <div class="text text_modern">{{ item.modernContent }}</div>
             </li>
           </div>
 

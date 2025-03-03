@@ -5,6 +5,7 @@ import axios from 'axios'
 // const router = useRouter() 是因为这个方法在组件中使用，这里也可以用，但是下面的更简单
 // import router from '@/router'
 
+//基本基地址
 const baseURL = 'http://localhost:8080'
 
 const instance = axios.create({

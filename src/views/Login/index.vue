@@ -90,7 +90,7 @@ const login = async () => {
     await form.value.validate()
     const res = await userLoginService(formModel.value)
 
-    if (res) {
+    if (res.code) {
       // 登录成功
       ElMessage.success('登录成功')
       router.push('/')

@@ -3,11 +3,16 @@ import request from '@/utils/request'
 //获取全部列表
 export const getArticleList = async (pageInfo) => {
   try {
-    const response = await request.get('/getArticleList', { params: pageInfo })
+    const response = await request.get('/getArticleList', {
+      params: {
+        startIndex: pageInfo.startIndex,
+        endIndex: pageInfo.endIndex
+      }
+    })
 
     // 如果响应成功且有数据
-    if (response.data.success === true) {
-      return response.data.result
+    if (response.data.code) {
+      return response.data.data
     } else {
       // 如果没有查到相关内容
       return {
@@ -33,8 +38,8 @@ export const getArticleDetail = async (id) => {
     })
 
     // 如果响应成功且有数据
-    if (response.data.success === true) {
-      return response.data
+    if (response.data.code) {
+      return response.data.data
     } else {
       // 如果没有查到相关内容
       return {
@@ -55,13 +60,13 @@ export const getArticleDetail = async (id) => {
 //搜索文章标题
 export const searchArticle = async (title) => {
   try {
-    const response = await request.get('/searchArticle', {
+    const response = await request.get('/searchArticles', {
       params: { title: title }
     })
 
     // 如果响应成功且有数据
-    if (response.data.success === true) {
-      return response.data.result
+    if (response.data.code) {
+      return response.data.data
     } else {
       // 如果没有查到相关内容
       return {

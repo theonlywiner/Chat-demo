@@ -96,7 +96,7 @@ const handleCommand = async (key) => {
             <div class="user-area">
               <!-- 用户姓名 -->
               <div class="username">
-                {{ isLogin ? '尊敬的用户:' + userStore.token : '未登录' }}
+                {{ isLogin ? '尊敬的用户:' + userStore.username : '未登录' }}
               </div>
               <!-- 头像的下拉菜单 -->
               <el-dropdown placement="bottom-end" @command="handleCommand">
@@ -188,7 +188,7 @@ const handleCommand = async (key) => {
 .logo-area {
   display: flex;
   justify-content: center;
-  margin-left: 160px;
+  // margin-left: 160px;
 
   .logo-image {
     height: 40px;
