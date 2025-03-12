@@ -24,18 +24,25 @@ const router = createRouter({
         {
           path: 'article/ai_chat',
           component: () => import('@/views/Questions/ai_index_collapse.vue')
-        }
+        },
+        {
+          path: '/profile',
+          name: 'profile',
+          component: () => import('@/views/User/Profile.vue')
+        },
+        {
+          path: '/login',
+          component: () => import('@/views/Login/index.vue')
+        },
+        {
+          path: '/search_prodetail/:id',
+          name: 'prodetail',
+          component: () => import('@/views/Prodetail/index.vue')
+        },
       ]
     },
-    {
-      path: '/login',
-      component: () => import('@/views/Login/index.vue')
-    },
-    {
-      path: '/search_prodetail/:id',
-      name: 'prodetail',
-      component: () => import('@/views/Prodetail/index.vue')
-    }
+
+
   ]
 })
 

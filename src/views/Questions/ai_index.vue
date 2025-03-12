@@ -98,7 +98,7 @@ const send = () => {
   /* 防止换行 */
   align-items: center;
   /* 垂直居中对齐 */
-  margin-top: 10px;
+  margin-bottom: 10px;
 }
 
 #userInput {

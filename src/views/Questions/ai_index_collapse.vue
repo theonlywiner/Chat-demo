@@ -27,7 +27,7 @@ const foldingMethod = () => {
 </script>
 <template>
 	<div class="bigBox">
-		<div class="leftBox" v-if="foldedState">侧边栏,用于展示历史记录</div>
+		<div class="leftBox" v-if="foldedState">侧边栏,用于展示历史记录（wip）</div>
 		<!--折叠-->
 
 		<div class="rightBox">
@@ -61,6 +61,7 @@ const foldingMethod = () => {
 }
 
 .bigBox {
+	background-color: white;
 	height: 100%;
 	width: 100%;
 	display: flex;

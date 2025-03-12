@@ -12,13 +12,18 @@ import { useRouter } from 'vue-router'
 import emptyImg from '@/assets/empty.png'
 import avatar from '@/assets/user.png'
 
+import DailyQuote from '@/components/DailyQuote.vue'
+
 const userStore = useUserStore()
 const router = useRouter()
 
-// isLogin用于判断用户是否登录  改变顶部状态
-const isLogin = computed(() => {
-  return userStore.isLogin
-})
+// 模拟用户现在处于登录状态
+const isLogin = true;
+
+// // isLogin用于判断用户是否登录  改变顶部状态
+// const isLogin = computed(() => {
+//   return userStore.isLogin
+// })
 
 // 导航菜单配置
 const navItems = [
@@ -35,13 +40,14 @@ const handleNavClick = (path) => {
 
 //下拉菜单
 const handleCommand = async (key) => {
-  //登录按钮
+
   if (key === 'login') {
+    //登录按钮
     router.push('/login')
     return
-  }
-  //退出按钮
-  if (key === 'logout') {
+  } 
+  else if (key === 'logout') {
+    //退出按钮
     await ElMessageBox.confirm('确定要退出吗', '温馨提示', {
       type: 'warning',
       confirmButtonText: '确定',
@@ -53,7 +59,11 @@ const handleCommand = async (key) => {
         router.push('/login')
         ElMessage.success('退出成功')
       })
-      .catch(() => {})
+      .catch(() => { })
+  }
+  else if (key === 'profile') {
+    //用户信息
+    router.push('/profile')
   }
 }
 </script>
@@ -73,19 +83,10 @@ const handleCommand = async (key) => {
           <el-col :span="16">
             <!-- 导航菜单 -->
             <div class="nav-menu">
-              <el-menu
-                mode="horizontal"
-                :router="true"
-                :default-active="$route.path"
-                class="nav-items"
-                :ellipsis="false"
-              >
-                <el-menu-item
-                  v-for="item in navItems"
-                  :key="item.path"
-                  :index="item.path"
-                  @click="handleNavClick(item.path)"
-                >
+              <el-menu mode="horizontal" :router="true" :default-active="$route.path" class="nav-items"
+                :ellipsis="false">
+                <el-menu-item v-for="item in navItems" :key="item.path" :index="item.path"
+                  @click="handleNavClick(item.path)">
                   {{ item.name }}
                 </el-menu-item>
               </el-menu>
@@ -111,23 +112,15 @@ const handleCommand = async (key) => {
                 <!-- 下拉部分 -->
                 <template #dropdown>
                   <el-dropdown-menu v-if="isLogin">
-                    <el-dropdown-item command="profile" :icon="User"
-                      >基本资料</el-dropdown-item
-                    >
-                    <el-dropdown-item command="avatar" :icon="Crop"
-                      >更换头像</el-dropdown-item
-                    >
-                    <el-dropdown-item command="password" :icon="EditPen"
-                      >重置密码</el-dropdown-item
-                    >
-                    <el-dropdown-item command="logout" :icon="SwitchButton"
-                      >退出登录</el-dropdown-item
-                    >
+                    <el-dropdown-item command="profile" :icon="User">基本资料</el-dropdown-item>
+                    <!-- <el-dropdown-item command="avatar" :icon="Crop">更换头像</el-dropdown-item>
+                    <el-dropdown-item command="password" :icon="EditPen">重置密码</el-dropdown-item> -->
+                    <el-dropdown-item command="logout" :icon="SwitchButton">退出登录</el-dropdown-item>
+
+                    
                   </el-dropdown-menu>
                   <el-dropdown-menu v-else>
-                    <el-dropdown-item command="login" :icon="User"
-                      >登录账号</el-dropdown-item
-                    >
+                    <el-dropdown-item command="login" :icon="User">登录账号</el-dropdown-item>
                   </el-dropdown-menu>
                 </template>
               </el-dropdown>
@@ -140,17 +133,41 @@ const handleCommand = async (key) => {
 
         </div> -->
       </el-header>
-
+      <!-- 内容 -->
       <el-main class="main">
         <router-view></router-view>
       </el-main>
+      <!-- 底部 -->
+      <el-footer class="footer">
 
-      <el-footer>测试版--浙外ai问答助手</el-footer>
+        <div class="daily">
+          <DailyQuote></DailyQuote>
+        </div>
+        <br /><br />
+        <div>
+          测试版--浙外ai问答助手
+        </div>
+
+      </el-footer>
     </el-container>
   </el-container>
 </template>
 
 <style lang="less" scoped>
+.daily {
+  background-color: wheat;
+}
+
+.main {
+  margin-left: 15%;
+  margin-right: 15%;
+}
+
+.footer {
+  display: flex;
+  flex-direction: column;
+}
+
 .layout-container {
   height: 100vh;
   display: flex;
@@ -166,6 +183,7 @@ const handleCommand = async (key) => {
   flex-shrink: 0;
   /* 防止header被压缩 */
 }
+
 // 让layout里面的元素竖直居中（默认有display:flex）
 .el-row {
   align-items: center;
