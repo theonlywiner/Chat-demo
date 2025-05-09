@@ -1,6 +1,6 @@
 <script setup>
-import { CircleClose } from "@element-plus/icons-vue";
-import { deleteChatSession } from "@/api/chat-session";
+import { CircleClose } from '@element-plus/icons-vue'
+import { deleteChatSession } from '@/api/chat-session'
 // active：用来标记当前会话是否处于选中状态
 // session：用于展示的会话信息
 const SessionItem = {
@@ -8,27 +8,26 @@ const SessionItem = {
     active: Boolean,
     session: Object // 假设ChatSession是一个对象类型
   },
-  emits: ["delete"],
+  emits: ['delete'],
   setup(props, { emit }) {
     const handleDeleteSession = async () => {
       try {
-        const res = await deleteChatSession(props.session.id);
+        const res = await deleteChatSession(props.session.id)
         if (res.success) {
-          emit("delete", props.session);
+          emit('delete', props.session)
         }
       } catch (error) {
-        console.error("Error deleting chat session:", error);
+        console.error('Error deleting chat session:', error)
       }
-    };
+    }
 
     return {
       handleDeleteSession
-    };
+    }
   }
-};
+}
 
-export { SessionItem };
-
+export { SessionItem }
 </script>
 <template>
   <!-- 如果处于激活状态则增加 active class -->
@@ -47,7 +46,10 @@ export { SessionItem };
     <!-- 当鼠标放在会话上时会弹出删除按钮 -->
     <div class="btn-wrapper">
       <el-icon :size="15" class="close">
-        <el-popconfirm title="是否确认永久删除该聊天会话？" @confirm="handleDeleteSession">
+        <el-popconfirm
+          title="是否确认永久删除该聊天会话？"
+          @confirm="handleDeleteSession"
+        >
           <template #reference>
             <CircleClose />
           </template>
@@ -103,7 +105,6 @@ export { SessionItem };
 
   /* 当鼠标放在会话上时触发下面的css样式*/
   &:hover {
-
     /* 遮罩入场，从最左侧滑进去，渐渐变得不透明 */
     .mask {
       opacity: 1;
@@ -111,7 +112,6 @@ export { SessionItem };
     }
 
     .btn-wrapper {
-
       /* 暗示用户这个按钮可以点击 */
       &:hover {
         cursor: pointer;

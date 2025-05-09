@@ -91,6 +91,8 @@ const login = async () => {
     const res = await userLoginService(formModel.value)
 
     if (res.code) {
+      console.log(res)
+
       // 登录成功
       ElMessage.success('登录成功')
       router.push('/')
@@ -222,7 +224,9 @@ const login = async () => {
   height: 100vh;
   background-color: #fff;
   .bg {
-    background: url('/src/assets/bg.jpeg') no-repeat center / cover;
+    height: 100vh;
+    width: auto;
+    background: url('src/assets/bg.jpeg') no-repeat center / cover;
     border-radius: 0 20px 20px 0;
   }
   .form {

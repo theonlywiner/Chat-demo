@@ -37,7 +37,7 @@ export const userLoginService = async (obj) => {
     })
 
     if (response.data.code) {
-      userStore.setUsername(response.data.data.username)
+      userStore.setUsername(response.data.data.userName)
       userStore.setToken(response.data.data.token)
       return response.data
     } else {

@@ -4,12 +4,12 @@ import { ref } from 'vue'
 export const useUserStore = defineStore(
   'user',
   () => {
-    const username = ref({})
+    const userName = ref({})
     const token = ref('')
     const isLogin = ref(false)
     //设置username
-    const setUsername = (newUsername) => {
-      username.value = newUsername
+    const setUsername = (newUserName) => {
+      userName.value = newUserName
     }
     //设置token
     const setToken = (newToken) => {
@@ -23,7 +23,7 @@ export const useUserStore = defineStore(
       isLogin.value = false
     }
     return {
-      username,
+      userName,
       token,
       isLogin,
       setUsername,

@@ -13,9 +13,12 @@
   "dependencies": {
     "@element-plus/icons-vue": "^2.3.1",
     "axios": "^1.7.9",
+    "echarts": "^5.6.0",
+    "echarts-wordcloud": "^2.1.0",
     "element-plus": "^2.8.0",
     "pinia": "^2.1.7",
     "vue": "^3.4.29",
+    "vue-echarts": "^7.0.3",
     "vue-router": "^4.3.3"
   },
   "devDependencies": {

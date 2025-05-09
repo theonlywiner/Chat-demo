@@ -3,7 +3,8 @@ import avatar from '@/assets/user.png'
 </script>
 
 <template>
-  <div class="container">这里是用户页面
+  <div class="container">
+    这里是用户页面
 
     <div class="basic">
       <el-avatar :size="200" :src="avatar" />
@@ -12,12 +13,11 @@ import avatar from '@/assets/user.png'
 
     <div class="settings">
       <el-button type="primary" round>修改头像（wip）</el-button>
-      <br><br>
+      <br /><br />
       <el-button type="warning" round>重置密码（wip）</el-button>
-      <br><br>
+      <br /><br />
       <el-button type="danger" round>注销账号（wip）</el-button>
     </div>
-
   </div>
 </template>
 
@@ -32,7 +32,6 @@ import avatar from '@/assets/user.png'
   background-color: white;
   height: 200px;
   width: 70%;
-
 }
 
 .basic {
