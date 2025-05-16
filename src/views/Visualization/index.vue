@@ -73,34 +73,14 @@
           '词语使用频率词云'
         }}
       </h2>
-      <!-- trigger="manual" 手动触发模式（不依赖默认的 hover/click 触发） -->
-      <!-- :show-after="100"：延迟 100 毫秒后显示（用于防抖） -->
-      <el-popover
-        v-model:visible="popoverVisible"
-        placement="top"
-        :width="200"
-        trigger="manual"
-        :show-after="100"
-        popper-class="word-meaning-popover"
-      >
-        <template #default>
-          <div class="word-meaning">
-            <h4>{{ selectedWord }}</h4>
-            <p>{{ wordMeaning }}</p>
-          </div>
-        </template>
-        <template #reference>
-          <div class="chart-wrapper">
-            <VChart
-              :option="wordCloudOption"
-              :autoresize="true"
-              style="width: 100%; height: 400px"
-              @mousemove="handleWordMove"
-              @mouseleave="handleChartMouseLeave"
-            />
-          </div>
-        </template>
-      </el-popover>
+      <WordCloud
+        :word-list="wordFrequencyList"
+        :options="{
+          sizeRange: [20, 80],
+          rotationRange: [0, 45],
+          shape: 'circle'
+        }"
+      />
     </div>
 
     <!-- 柱形图 -->
@@ -133,6 +113,7 @@ import {
   getAllDynasty,
   getAuthorInfo
 } from '@/api/visualize'
+import WordCloud from '@/components/WordCloud.vue'
 
 // 注册必要组件
 echarts.use([
@@ -151,7 +132,7 @@ const authorList = ref([])
 const filteredAuthorList = ref([])
 
 // 图表配置
-const wordCloudOption = ref({})
+// const wordCloudOption = ref({})
 const barChartOption = ref({})
 
 // 作者统计数据
@@ -162,15 +143,15 @@ const authorStats = ref({
 })
 
 // 在 script setup 中添加新的响应式变量
-const popoverVisible = ref(false)
-const selectedWord = ref('')
-const wordMeaning = ref('')
 const wordFrequencyMap = ref({}) // 用于存储词频数据的映射
 
 // 在 script setup 中添加新的响应式变量用于显示
 const displayAuthorName = ref('') // 用于显示作者名称
 
 const hideTimer = ref(null)
+
+// 词频列表
+const wordFrequencyList = ref([])
 
 // 加载词云数据
 const loadWordCloud = async () => {
@@ -187,48 +168,7 @@ const loadWordCloud = async () => {
       return map
     }, {})
 
-    // 词云配置
-    wordCloudOption.value = {
-      tooltip: {
-        show: true,
-        formatter: (params) => `${params.data.name}: 使用${params.data.value}次`
-      },
-      series: [
-        {
-          type: 'wordCloud',
-          data: wordFrequency.map((item) => ({
-            name: item.word,
-            value: item.frequency
-          })),
-          sizeRange: [20, 80],
-          rotationRange: [0, 45],
-          gridSize: 12,
-          shape: 'circle',
-          textStyle: {
-            color: () => {
-              return (
-                'rgb(' +
-                [
-                  Math.round(Math.random() * 160),
-                  Math.round(Math.random() * 160),
-                  Math.round(Math.random() * 160)
-                ].join(',') +
-                ')'
-              )
-            },
-            fontFamily: 'sans-serif',
-            fontWeight: 'bold'
-          },
-          emphasis: {
-            focus: 'self',
-            textStyle: {
-              shadowBlur: 10,
-              shadowColor: '#333'
-            }
-          }
-        }
-      ]
-    }
+    wordFrequencyList.value = response.data.wordCloudItemList
 
     // 柱形图配置 - 展示频率最高的10个词
     barChartOption.value = {
@@ -345,34 +285,6 @@ const filterAuthor = (query) => {
     // 如果没有输入内容，显示所有作者
     filteredAuthorList.value = authorList.value
   }
-}
-
-// 鼠标接触事件
-const handleWordMove = (params) => {
-  const word = params.data?.name
-  const wordData = wordFrequencyMap.value[word]
-
-  // 清除之前的定时器
-  if (hideTimer.value) {
-    clearTimeout(hideTimer)
-  }
-
-  if (wordData) {
-    selectedWord.value = word
-    wordMeaning.value = wordData.semanticMeaning || '暂无释义'
-    popoverVisible.value = true
-  } else {
-    hideTimer.value = setTimeout(() => {
-      popoverVisible.value = false
-    }, 1000)
-  }
-}
-
-// 添加鼠标离开事件处理
-const handleChartMouseLeave = () => {
-  hideTimer.value = setTimeout(() => {
-    popoverVisible.value = false
-  }, 1000)
 }
 
 // 组件卸载时清除定时器

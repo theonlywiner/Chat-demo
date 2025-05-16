@@ -6,7 +6,7 @@ import emptyImg from '@/assets/empty.png'
 import avatar from '@/assets/user.png'
 import { computed } from 'vue'
 
-import DailyQuote from '@/components/DailyQuote.vue'
+// import DailyQuote from '@/components/DailyQuote.vue'
 
 const userStore = useUserStore()
 const router = useRouter()
@@ -24,6 +24,7 @@ const navItems = [
   { name: '首页', path: '/article/channel' },
   { name: '古文搜索', path: '/article/search' },
   { name: '古诗搜索', path: '/article/PoemSearch' },
+  { name: '内容搜索', path: '/article/search_keyword' },
   { name: '解析', path: '/article/question' },
   { name: 'AI对话', path: '/article/ai_chat' },
   { name: '可视化', path: '/article/visualization' }
@@ -145,10 +146,10 @@ const handleCommand = async (key) => {
       </el-main>
       <!-- 底部 -->
       <el-footer class="footer">
-        <div class="daily">
+        <!-- <div class="daily">
           <DailyQuote></DailyQuote>
-        </div>
-        <br /><br />
+        </div> -->
+        <!-- <br /><br /> -->
         <div>测试版--浙外ai问答助手</div>
       </el-footer>
     </el-container>

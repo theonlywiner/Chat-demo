@@ -226,3 +226,28 @@ export const getRelatedPoems = async (ids) => {
     }
   }
 }
+
+// 获取朝代列表
+export const getDynastyList = async () => {
+  try {
+    const response = await request.get('/dynasties')
+
+    // 如果响应成功且有数据
+    if (response.data.code) {
+      return response.data.data
+    } else {
+      // 如果没有查到相关内容
+      return {
+        success: false,
+        error: '后端报错'
+      }
+    }
+  } catch (error) {
+    console.error('获取失败:', error.message)
+
+    return {
+      success: false,
+      error: '系统错误' // 统一的错误提示
+    }
+  }
+}

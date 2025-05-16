@@ -39,20 +39,25 @@ const router = createRouter({
           component: () => import('@/views/User/Profile.vue')
         },
         {
-          path: '/search_prodetail/:id',
-          name: 'prodetail',
-          component: () => import('@/views/Prodetail/index.vue')
-        },
-        {
-          path: '/poem_detail/:id',
-          name: 'poemDetail',
-          component: () => import('@/views/Prodetail/PoemDetail.vue')
+          path: '/article/search_keyword',
+          name: 'searchKeyword',
+          component: () => import('@/views/Search/SearchPage.vue')
         }
       ]
     },
     {
       path: '/login',
       component: () => import('@/views/Login/index.vue')
+    },
+    {
+      path: '/search_prodetail/:id',
+      name: 'prodetail',
+      component: () => import('@/views/Prodetail/index.vue')
+    },
+    {
+      path: '/poem_detail/:id',
+      name: 'poemDetail',
+      component: () => import('@/views/Prodetail/PoemDetail.vue')
     }
   ],
   // 路由切换时，滚动到顶部

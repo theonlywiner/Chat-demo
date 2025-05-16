@@ -92,14 +92,14 @@ watch(
 
 // 返回按钮处理
 const handleBack = () => {
-  if (route.query.page === 'PoemSearch') {
+  if (route.query.page === 'SearchPage') {
     router.push({
-      path: '/article/PoemSearch',
+      path: '/article/search_keyword', // 修改为正确的搜索页面路径
       query: { from: 'detail' }
     })
-  } else if (route.query.page === 'Article') {
+  } else if (route.query.page === 'PoemSearch') {
     router.push({
-      path: '/article/channel',
+      path: '/article/PoemSearch',
       query: { from: 'detail' }
     })
   }
