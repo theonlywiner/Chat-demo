@@ -1,63 +1,85 @@
 import axios from 'axios'
-// import { useUserStore } from '@/stores/user'
-// import { ElMessage } from 'element-plus'
-//这里没有采用 import { useRouter } from 'vue-router'
-// const router = useRouter() 是因为这个方法在组件中使用，这里也可以用，但是下面的更简单
-// import router from '@/router'
+import { useUserStore } from '@/stores/user'
+import { ElMessage } from 'element-plus'
+import router from '@/router'
 
-//基本基地址
-const baseURL = 'http://localhost:8080'
+// API地址配置
+const CLOUD_API_URL = 'https://your-cloud-api.com' // 请替换为您的实际云端API地址
+const LOCAL_API_URL = 'http://localhost:8080'
 
+// 检查云端API是否可用的函数
+const checkCloudApiAvailable = async () => {
+  try {
+    const response = await fetch(CLOUD_API_URL + '/health', { 
+      method: 'HEAD',
+      timeout: 3000
+    })
+    return response.ok
+  } catch (error) {
+    console.warn('Cloud API is not available, fallback to local API')
+    return false
+  }
+}
+
+// 动态获取baseURL
+const getBaseURL = async () => {
+  const isCloudAvailable = await checkCloudApiAvailable()
+  return isCloudAvailable ? CLOUD_API_URL : LOCAL_API_URL
+}
+
+// 创建axios实例
 const instance = axios.create({
-  // TODO 1. 基础地址，超时时间,请求头
-  baseURL,
   timeout: 15000
 })
 
-// // 请求拦截器
-// instance.interceptors.request.use(
-//   (config) => {
-//     // TODO 2. 携带token
-//     const userStore = useUserStore()
-//     if (userStore.token) {
-//       config.headers.Authorization = userStore.token
-//     }
+// 动态设置baseURL
+getBaseURL().then(baseURL => {
+  instance.defaults.baseURL = baseURL
+  console.log('Current API URL:', baseURL)
+})
 
-//     return config
-//   },
-//   (err) => Promise.reject(err)
-// )
+// 请求拦截器
+instance.interceptors.request.use(
+  async (config) => {
+    // 每次请求前检查并更新baseURL
+    config.baseURL = await getBaseURL()
+    
+    // 携带token
+    const userStore = useUserStore()
+    if (userStore.token) {
+      config.headers.Authorization = `Bearer ${userStore.token}`
+    }
+    return config
+  },
+  (err) => Promise.reject(err)
+)
 
-// //响应拦截器
-// instance.interceptors.response.use(
-//   (res) => {
-//     //1.数据请求成功
+//响应拦截器
+instance.interceptors.response.use(
+  (res) => {
+    //1.数据请求成功
+    if (res.data.code) {
+      return res
+    }
 
-//     if (res.data.code === 0) {
-//       return res
-//     }
+    // 2.数据请求失败给错误提示
+    ElMessage.error(res.data.message || '服务异常')
+    return Promise.reject(res.data)
+  },
+  (err) => {
+    //401错误 特殊情况
+    //原因: token过期 权限不足 => 拦截到登录
+    if (err.response?.status === 401) {
+      router.push('/login')
+    }
 
-//     // 2.数据请求失败给错误提示
-//     // 把结果可视化
-
-//     ElMessage.error(res.data.message || '服务异常')
-//     return Promise.reject(res.data)
-//   },
-//   (err) => {
-//     //401错误 特殊情况
-//     //原因: token过期 权限不足 => 拦截到登录
-//     // response? 表示可有可无
-//     if (err.response?.status === 401) {
-//       router.push('/login')
-//     }
-
-//     //错误的默认情况
-//     ElMessage.error(err.response.data.message || '服务异常')
-//     return Promise.reject(err)
-//   }
-// )
+    //错误的默认情况
+    ElMessage.error(err.response.data.message || '服务异常')
+    return Promise.reject(err)
+  }
+)
 
 // 默认导入
 export default instance
 // 按需导出
-export { baseURL }
+export const baseURL = instance.defaults.baseURL
