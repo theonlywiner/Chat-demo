@@ -11,7 +11,7 @@ const router = createRouter({
       children: [
         {
           path: 'article/channel',
-          component: () => import('@/views/Article/index.vue')
+          component: () => import('@/views/Article/index_ord.vue')
         },
         {
           path: 'article/search',
@@ -22,8 +22,8 @@ const router = createRouter({
           component: () => import('@/views/Search/PoemSearch.vue')
         },
         {
-          path: 'article/question',
-          component: () => import('@/views/Questions/index.vue')
+          path: '/article/word_value',
+          component: () => import('@/views/WordVault/index.vue')
         },
         {
           path: 'article/ai_chat',
@@ -42,6 +42,11 @@ const router = createRouter({
           path: '/article/search_keyword',
           name: 'searchKeyword',
           component: () => import('@/views/Search/SearchPage.vue')
+        },
+        {
+          path: '/quiz-history',
+          name: 'QuizHistory',
+          component: () => import('@/views/WordVault/QuizeHistory.vue')
         }
       ]
     },
@@ -58,6 +63,11 @@ const router = createRouter({
       path: '/poem_detail/:id',
       name: 'poemDetail',
       component: () => import('@/views/Prodetail/PoemDetail.vue')
+    },
+    {
+      path: '/quiz',
+      name: 'quiz',
+      component: () => import('@/views/WordVault/AIQuize.vue')
     }
   ],
   // 路由切换时，滚动到顶部

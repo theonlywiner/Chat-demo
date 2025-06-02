@@ -25,7 +25,7 @@ const navItems = [
   { name: '古文搜索', path: '/article/search' },
   { name: '古诗搜索', path: '/article/PoemSearch' },
   { name: '内容搜索', path: '/article/search_keyword' },
-  { name: '解析', path: '/article/question' },
+  { name: '初高中必读词', path: '/article/word_value' },
   { name: 'AI对话', path: '/article/ai_chat' },
   { name: '可视化', path: '/article/visualization' }
 ]
@@ -58,6 +58,9 @@ const handleCommand = async (key) => {
   } else if (key === 'profile') {
     //用户信息
     router.push('/profile')
+  } else if (key === 'history') {
+    //查看记录
+    router.push('/quiz-history')
   }
 }
 </script>
@@ -118,6 +121,9 @@ const handleCommand = async (key) => {
                     <el-dropdown-item command="profile" :icon="User"
                       >基本资料</el-dropdown-item
                     >
+                    <el-dropdown-item command="history" :icon="User">
+                      查看记录
+                    </el-dropdown-item>
                     <!-- <el-dropdown-item command="avatar" :icon="Crop">更换头像</el-dropdown-item>
                     <el-dropdown-item command="password" :icon="EditPen">重置密码</el-dropdown-item> -->
                     <el-dropdown-item command="logout" :icon="SwitchButton"
@@ -162,8 +168,11 @@ const handleCommand = async (key) => {
 }
 
 .main {
-  margin-left: 15%;
-  margin-right: 15%;
+  // 删除左右边距限制
+  // margin-left: 15%;
+  // margin-right: 15%;
+  width: 100%;
+  padding: 0;
 }
 
 .footer {

@@ -5,6 +5,7 @@ import { ref, watch } from 'vue'
 import { userLoginService, userRegisterService } from '@/api/user.js'
 import { useRouter } from 'vue-router'
 import { ElMessage } from 'element-plus'
+import bgImg from '@/assets/bg.jpeg'
 
 const router = useRouter()
 
@@ -105,7 +106,11 @@ const login = async () => {
 
 <template>
   <el-row class="login-page">
-    <el-col :span="12" class="bg"></el-col>
+    <el-col
+      :span="12"
+      class="bg"
+      :style="{ backgroundImage: `url(${bgImg})` }"
+    ></el-col>
     <el-col :span="6" :offset="3" class="form">
       <!-- 注册 -->
       <el-form
@@ -226,7 +231,7 @@ const login = async () => {
   .bg {
     height: 100vh;
     width: auto;
-    background: url('src/assets/bg.jpeg') no-repeat center / cover;
+    background: no-repeat center / cover;
     border-radius: 0 20px 20px 0;
   }
   .form {
