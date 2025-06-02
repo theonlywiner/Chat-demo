@@ -153,6 +153,9 @@ const handleWordCloudClick = async (wordData) => {
 
 onMounted(async () => {
   const fromDetail = route.query.from === 'detail'
+  const keyword = route.query.keyword
+  const autoSearch = route.query.autoSearch === 'true'
+
   if (fromDetail && searchStore.getPageState()) {
     currentPage.value = searchStore.currentPage
     pageSize.value = searchStore.pageSize
@@ -168,9 +171,17 @@ onMounted(async () => {
     // 首次加载:
     // 1. 获取朝代列表
     await getDynasties()
-    // 初始加载时获取全部统计数据
-    await getDynastyStats()
-    await getSearchResults()
+    // 2. 如果有关键词，设置搜索文本并执行搜索
+    if (keyword) {
+      searchText.value = keyword
+      if (autoSearch) {
+        await handleSearch()
+      }
+    } else {
+      // 初始加载时获取全部统计数据
+      await getDynastyStats()
+      await getSearchResults()
+    }
   }
 })
 </script>

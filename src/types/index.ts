@@ -7,6 +7,7 @@ export interface PoemResponse {
     author: string
     content: string
     dynasty: string
+    background: string
   }
 }
 
@@ -15,4 +16,5 @@ export interface DailyPoem {
   author: string
   content: string[]
   dynasty: string
+  background: string
 } 
