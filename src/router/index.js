@@ -73,7 +73,7 @@ const router = createRouter({
     {
       path: '/dashboard',
       name: 'dashboard',
-      component: () => import('kq@/views/Dashboard/index.vue')
+      component: () => import('@/views/Dashboard/index.vue')
     }
   ],
   // 路由切换时，滚动到顶部
