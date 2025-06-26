@@ -21,7 +21,7 @@ const isLogin = computed(() => {
 
 // 导航菜单配置
 const navItems = [
-  { name: '首页', path: '/article/channel' },
+  { name: '古籍大全', path: '/article/channel'},
   { name: '古文搜索', path: '/article/search' },
   { name: '古诗搜索', path: '/article/PoemSearch' },
   { name: '内容搜索', path: '/article/search_keyword' },
@@ -73,7 +73,7 @@ const handleCommand = async (key) => {
         <el-row class="layout">
           <el-col :span="4">
             <!-- Logo区域 -->
-            <div class="logo-area">
+            <div class="logo-area" @click="router.push('/dashboard')" style="cursor: pointer;">
               <img :src="emptyImg" alt="Logo" class="logo-image" />
             </div>
           </el-col>
@@ -185,6 +185,18 @@ const handleCommand = async (key) => {
   display: flex;
   flex-direction: column;
 }
+
+// // 上边栏随屏幕走动
+// .layout {
+//   position: fixed;
+//   top: 0;
+//   left: 0;
+//   width: 100%;
+//   background-color: #f8f9fa;
+//   padding: 10px;
+//   // box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+//   z-index: 1000;
+// }
 
 .el-header {
   background-color: #fff;

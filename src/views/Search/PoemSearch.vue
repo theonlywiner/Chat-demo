@@ -119,6 +119,9 @@ const handlePoemClick = (id) => {
 onMounted(async () => {
   // 检查是否是从详情页返回
   const fromDetail = route.query.from === 'detail'
+  const keyword = route.query.keyword
+  const autoSearch = route.query.autoSearch === 'true'
+
   if (fromDetail && poemStore.getPageState()) {
     // 恢复所有状态
     currentPage.value = poemStore.currentPage
@@ -131,7 +134,14 @@ onMounted(async () => {
   } else {
     // 首次加载或缓存过期
     await getGrades()
-    getPoems()
+    if (keyword) {
+      searchText.value = keyword
+      if (autoSearch) {
+        handleSearch()
+      }
+    } else {
+      getPoems()
+    }
   }
 })
 </script>

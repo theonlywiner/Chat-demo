@@ -9,7 +9,10 @@ import router from '@/router'
 // const baseURL = 'http://localhost:8080'
 //改为nginx
 const baseURL = '/api'
+// 服务器地址
+// const baseURL = 'http://121.40.171.211:8090'
 
+// 创建axios实例
 const instance = axios.create({
   // TODO 1. 基础地址，超时时间,请求头
   baseURL,
@@ -76,3 +79,4 @@ instance.interceptors.response.use(
 export default instance
 // 按需导出
 export { baseURL }
+// export const baseURL = instance.defaults.baseURL

@@ -178,6 +178,9 @@ const login = async () => {
         v-else
       >
         <el-form-item>
+          <div class="logo-link" @click="router.push('/dashboard')">
+            <img src="@/assets/empty.png" alt="Logo" class="logo-image" />
+          </div>
           <h1>浙外古诗文问答</h1>
         </el-form-item>
         <el-form-item>
@@ -228,6 +231,31 @@ const login = async () => {
 .login-page {
   height: 100vh;
   background-color: #fff;
+  position: relative;
+
+  .logo-link {
+    // position: absolute;
+    top: 20px;
+    left: 20px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    cursor: pointer;
+    z-index: 10;
+    padding: 10px;
+    border-radius: 8px;
+    transition: all 0.3s ease;
+
+    &:hover {
+      background: rgba(255, 255, 255, 0.1);
+    }
+
+    .logo-image {
+      height: 32px;
+      width: auto;
+    }
+  }
+
   .bg {
     height: 100vh;
     width: auto;

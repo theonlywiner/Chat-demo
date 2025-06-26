@@ -7,7 +7,8 @@ const router = createRouter({
     {
       path: '/',
       component: () => import('@/views/layout/LayoutContainer.vue'),
-      redirect: '/article/channel',
+      // 重定向到dashboard
+      redirect: '/dashboard',
       children: [
         {
           path: 'article/channel',
@@ -68,6 +69,11 @@ const router = createRouter({
       path: '/quiz',
       name: 'quiz',
       component: () => import('@/views/WordVault/AIQuize.vue')
+    },
+    {
+      path: '/dashboard',
+      name: 'dashboard',
+      component: () => import('kq@/views/Dashboard/index.vue')
     }
   ],
   // 路由切换时，滚动到顶部
