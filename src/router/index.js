@@ -52,6 +52,11 @@ const router = createRouter({
           path: '/quiz-history',
           name: 'QuizHistory',
           component: () => import('@/views/WordVault/QuizeHistory.vue')
+        },
+        {
+          path: '/article/sentence_break',
+          name: 'sentenceBreak',
+          component: () => import('@/views/SentenceBreak/index.vue')
         }
       ]
     },

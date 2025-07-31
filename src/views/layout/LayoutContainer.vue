@@ -23,10 +23,11 @@ const isLogin = computed(() => {
 const navItems = [
   { name: '古籍大全', path: '/article/channel'},
   { name: '古诗词目录', path: '/article/indexSearch' },
-  { name: '古文搜索', path: '/article/search' },
-  { name: '古诗搜索', path: '/article/PoemSearch' },
+  // { name: '古文搜索', path: '/article/search' },
+  // { name: '古诗搜索', path: '/article/PoemSearch' },
   // { name: '内容搜索', path: '/article/search_keyword' },
   { name: '初高中必读词', path: '/article/word_value' },
+  { name: '断句练习', path: '/article/sentence_break' },
   // { name: 'AI对话', path: '/article/ai_chat' },
   // { name: '可视化', path: '/article/visualization' }
 ]
