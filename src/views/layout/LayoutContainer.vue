@@ -22,12 +22,13 @@ const isLogin = computed(() => {
 // 导航菜单配置
 const navItems = [
   { name: '古籍大全', path: '/article/channel'},
+  { name: '古诗词目录', path: '/article/indexSearch' },
   { name: '古文搜索', path: '/article/search' },
   { name: '古诗搜索', path: '/article/PoemSearch' },
-  { name: '内容搜索', path: '/article/search_keyword' },
+  // { name: '内容搜索', path: '/article/search_keyword' },
   { name: '初高中必读词', path: '/article/word_value' },
-  { name: 'AI对话', path: '/article/ai_chat' },
-  { name: '可视化', path: '/article/visualization' }
+  // { name: 'AI对话', path: '/article/ai_chat' },
+  // { name: '可视化', path: '/article/visualization' }
 ]
 
 // 处理导航点击

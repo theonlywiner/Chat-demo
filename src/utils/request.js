@@ -8,9 +8,9 @@ import router from '@/router'
 //基本基地址
 // const baseURL = 'http://localhost:8080'
 //改为nginx
-const baseURL = '/api'
+// const baseURL = '/api'
 // 服务器地址
-// const baseURL = 'http://121.40.171.211:8090'
+const baseURL = 'http://121.40.171.211:8090'
 
 // 创建axios实例
 const instance = axios.create({

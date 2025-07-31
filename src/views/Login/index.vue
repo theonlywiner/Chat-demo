@@ -3,11 +3,14 @@ import { User, Lock } from '@element-plus/icons-vue'
 import { ref, watch } from 'vue'
 //模拟接口应用
 import { userLoginService, userRegisterService } from '@/api/user.js'
-import { useRouter } from 'vue-router'
+import { useRouter, useRoute } from 'vue-router'
 import { ElMessage } from 'element-plus'
 import bgImg from '@/assets/bg.jpeg'
+import { useUserStore } from '@/stores/user'
 
 const router = useRouter()
+const route = useRoute()
+const userStore = useUserStore()
 
 //判断是登录还是注册
 const isRegister = ref(false)
@@ -96,7 +99,20 @@ const login = async () => {
 
       // 登录成功
       ElMessage.success('登录成功')
-      router.push('/')
+      
+      // 优先使用 query 里的 redirect
+      const redirect = route.query.redirect
+      if (redirect) {
+        router.push(redirect)
+        return
+      }
+      // 其次用 userStore 里的 redirectPath
+      const redirectPath = userStore.getAndClearRedirectPath()
+      if (redirectPath) {
+        router.push(redirectPath)
+      } else {
+        router.push('/')
+      }
     }
   } catch (error) {
     console.error('表单校验失败:', error)

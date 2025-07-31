@@ -72,14 +72,10 @@ const get_ArticleDetail = async (id) => {
 // 处理返回
 const handleBack = () => {
   // 返回时带上来源标记
-  // router.push({
-  //   path: '/article/search',
-  //   query: { from: 'detail' }
-  // })
   console.log(route.query.page)
   if (route.query.page === 'Search') {
     router.push({
-      path: '/article/search',
+      path: '/article/indexSearch',
       query: { from: 'detail' }
     })
   } else if (route.query.page === 'Article') {

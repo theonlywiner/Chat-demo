@@ -7,6 +7,8 @@ export const useUserStore = defineStore(
     const userName = ref({})
     const token = ref('')
     const isLogin = ref(false)
+    const redirectPath = ref('') // 保存跳转来源路径
+    
     //设置username
     const setUsername = (newUserName) => {
       userName.value = newUserName
@@ -22,13 +24,26 @@ export const useUserStore = defineStore(
       token.value = ''
       isLogin.value = false
     }
+    //设置跳转来源路径
+    const setRedirectPath = (path) => {
+      redirectPath.value = path
+    }
+    //获取跳转来源路径并清除
+    const getAndClearRedirectPath = () => {
+      const path = redirectPath.value
+      redirectPath.value = ''
+      return path
+    }
     return {
       userName,
       token,
       isLogin,
+      redirectPath,
       setUsername,
       setToken,
-      removeToken
+      removeToken,
+      setRedirectPath,
+      getAndClearRedirectPath
     }
   },
   {

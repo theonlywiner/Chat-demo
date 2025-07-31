@@ -8,6 +8,10 @@ export const useArticleStore = defineStore('searchArticle', () => {
   const isSeachs = ref(false)
   const articleListalls = ref([])
   const searchTexts = ref('')
+  const selectedType = ref('poem')
+  const selectedDynasty = ref('all')
+  const selectedGrade = ref(0)
+  const gradeOptions = ref([])
   const cacheTimeout = 1000 * 60 * 5 // 5分钟缓存
 
   // 保存页面状态
@@ -17,7 +21,11 @@ export const useArticleStore = defineStore('searchArticle', () => {
     totalCount,
     isSeach,
     searchText,
-    articleListall
+    articleListall,
+    type,
+    dynasty,
+    grade,
+    grades
   ) => {
     currentPage.value = page
     articleList.value = articles
@@ -25,6 +33,12 @@ export const useArticleStore = defineStore('searchArticle', () => {
     isSeachs.value = isSeach
     searchTexts.value = searchText
     articleListalls.value = articleListall
+    selectedType.value = type
+    selectedDynasty.value = dynasty
+    selectedGrade.value = grade
+    gradeOptions.value = grades
+
+
 
     // 保存到 localStorage，带上时间戳
     localStorage.setItem(
@@ -36,6 +50,10 @@ export const useArticleStore = defineStore('searchArticle', () => {
         isSeachs,
         searchTexts,
         total: totalCount,
+        type,
+        dynasty,
+        grade,
+        grades,
         timestamp: Date.now()
       })
     )
@@ -52,6 +70,10 @@ export const useArticleStore = defineStore('searchArticle', () => {
         isSeachs,
         searchTexts,
         total: totalCount,
+        type,
+        dynasty,
+        grade,
+        grades,
         timestamp
       } = JSON.parse(cached)
       // 检查缓存是否过期
@@ -62,6 +84,13 @@ export const useArticleStore = defineStore('searchArticle', () => {
         isSeachs.value = isSeachs
         searchTexts.value = searchTexts
         articleListalls.value = articleListalls
+        selectedType.value = type || 'poem'
+        selectedDynasty.value = dynasty || 'all'
+        selectedGrade.value = grade || 0
+        gradeOptions.value = grades || []
+        
+
+        
         return true
       }
       // 缓存过期，清除
@@ -78,6 +107,10 @@ export const useArticleStore = defineStore('searchArticle', () => {
     isSeachs.value = false
     searchTexts.value = ''
     articleListalls.value = []
+    selectedType.value = 'poem'
+    selectedDynasty.value = 'all'
+    selectedGrade.value = 0
+    gradeOptions.value = []
     localStorage.removeItem('articlePageState')
   }
 
@@ -88,6 +121,10 @@ export const useArticleStore = defineStore('searchArticle', () => {
     isSeachs,
     searchTexts,
     articleListalls,
+    selectedType,
+    selectedDynasty,
+    selectedGrade,
+    gradeOptions,
     savePageState,
     getPageState,
     clearPageState

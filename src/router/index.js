@@ -1,5 +1,5 @@
 import { createRouter, createWebHistory } from 'vue-router'
-// import { useUserStore } from '@/stores/user'
+import { useUserStore } from '@/stores/user'
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -15,6 +15,10 @@ const router = createRouter({
           component: () => import('@/views/Article/index_ord.vue')
         },
         {
+          path: 'article/indexSearch',
+          component: () => import('@/views/indexSearch/index.vue')
+        },
+        {
           path: 'article/search',
           component: () => import('@/views/Search/index.vue')
         },
@@ -26,14 +30,14 @@ const router = createRouter({
           path: '/article/word_value',
           component: () => import('@/views/WordVault/index.vue')
         },
-        {
-          path: 'article/ai_chat',
-          component: () => import('@/views/Questions/ai_index_collapse.vue')
-        },
-        {
-          path: 'article/visualization',
-          component: () => import('@/views/Visualization/index.vue')
-        },
+        // {
+        //   path: 'article/ai_chat',
+        //   component: () => import('@/views/Questions/ai_index_collapse.vue')
+        // },
+        // {
+        //   path: 'article/visualization',
+        //   component: () => import('@/views/Visualization/index.vue')
+        // },
         {
           path: '/profile',
           name: 'profile',
@@ -84,11 +88,20 @@ const router = createRouter({
 })
 
 //前置守卫
-// router.beforeEach((to) => {
-//   const userStore = useUserStore()
-//   if (!userStore.token && to.path !== '/login') {
-//     return '/login'
-//   }
-// })
+router.beforeEach((to) => {
+  const userStore = useUserStore()
+  
+  // 如果用户未登录且目标路径不是登录页
+  if (!userStore.token && to.path !== '/login') {
+    // 记录跳转来源路径
+    userStore.setRedirectPath(to.fullPath)
+    return '/login'
+  }
+  
+  // 如果用户已登录且目标路径是登录页，跳转到首页
+  if (userStore.token && to.path === '/login') {
+    return '/'
+  }
+})
 
 export default router

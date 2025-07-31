@@ -3,11 +3,21 @@ import request from '@/utils/request'
 //获取全部列表
 export const getArticleList = async (pageInfo) => {
   try {
+    const params = {
+      startIndex: pageInfo.startIndex,
+      endIndex: pageInfo.endIndex
+    }
+    
+    // 添加类型和朝代参数（如果存在）
+    if (pageInfo.type) {
+      params.type = pageInfo.type
+    }
+    if (pageInfo.dynastyId) {
+      params.dynastyId = pageInfo.dynastyId
+    }
+    
     const response = await request.get('/getArticleList', {
-      params: {
-        startIndex: pageInfo.startIndex,
-        endIndex: pageInfo.endIndex
-      }
+      params: params
     })
 
     // 如果响应成功且有数据
